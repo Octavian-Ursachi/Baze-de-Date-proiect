@@ -426,6 +426,38 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QPushButton" name="delete_row_bi">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="autoFillBackground">
+                    <bool>false</bool>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Delete Row</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QPushButton" name="commit_bi">
                    <property name="minimumSize">
                     <size>
@@ -465,11 +497,6 @@ QPushButton:hover {
                   <height>80</height>
                  </size>
                 </property>
-                <row>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </row>
                 <column>
                  <property name="text">
                   <string>intersection_id</string>
@@ -495,11 +522,6 @@ QPushButton:hover {
                   <string>maximum_speed_limit</string>
                  </property>
                 </column>
-                <item row="0" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </item>
                </widget>
               </item>
              </layout>
@@ -559,6 +581,35 @@ QPushButton:hover {
                    </property>
                    <property name="text">
                     <string>Add Row</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="delete_row_bl">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Delete Row</string>
                    </property>
                   </widget>
                  </item>
@@ -691,6 +742,35 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QPushButton" name="delete_row_bv">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Delete Row</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QPushButton" name="commit_bv">
                    <property name="minimumSize">
                     <size>
@@ -818,6 +898,35 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QPushButton" name="delete_row_bw">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Delete Row</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QPushButton" name="commit_bw">
                    <property name="minimumSize">
                     <size>
@@ -936,6 +1045,35 @@ QPushButton:hover {
                    </property>
                    <property name="text">
                     <string>Add Row</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="delete_row_be">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>80</width>
+                     <height>80</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Delete Row</string>
                    </property>
                   </widget>
                  </item>

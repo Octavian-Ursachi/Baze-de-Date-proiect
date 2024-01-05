@@ -1,8 +1,11 @@
 import cx_Oracle
 
-class DBManager():
+
+class DBManager:
     def __init__(self,user, password, host, port):
+        print("Connecting to database")
         self.con = cx_Oracle.connect(user + '/' + password + '@' + host + ':' + port + '/orcl')
+        print("Connected!")
         self.cur = self.con.cursor()
 
     def get_intersection(self):

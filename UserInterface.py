@@ -4,38 +4,43 @@ from PyQt5.QtGui import *
 from DBManager import DBManager
 import sys
 
+
 class Ui(QMainWindow, DBManager):
     def __init__(self):
         super(DBManager, self).__init__()
         super(Ui, self).__init__(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
 
-        uic.loadUi('.venv/UI/BD.ui', self)
-
+        uic.loadUi('UI/BD.ui', self)
 
         self.intersection_b = {
             'page' :  self.findChild(QPushButton, 'intersection_b'),
             'add_row' : self.findChild(QPushButton, 'add_row_bi'),
-            'commit' : self.findChild(QPushButton, 'commit_bi')
+            'commit' : self.findChild(QPushButton, 'commit_bi'),
+            'delete' : self.findChild(QPushButton, 'delete_row_bi')
         }
         self.lanes_b = {
             'page' : self.findChild(QPushButton, 'lanes_b'),
             'add_row' : self.findChild(QPushButton, 'add_row_bl'),
-            'commit' : self.findChild(QPushButton, 'commit_bl')
+            'commit' : self.findChild(QPushButton, 'commit_bl'),
+            'delete': self.findChild(QPushButton, 'delete_row_bl')
         }
         self.vehicles_b = {
             'page' : self.findChild(QPushButton, 'vehicles_b'),
             'add_row' : self.findChild(QPushButton, 'add_row_bv'),
-            'commit' : self.findChild(QPushButton, 'commit_bv')
+            'commit' : self.findChild(QPushButton, 'commit_bv'),
+            'delete': self.findChild(QPushButton, 'delete_row_bv')
         }
         self.weather_b = {
             'page' : self.findChild(QPushButton, 'weather_b'),
             'add_row' : self.findChild(QPushButton, 'add_row_bw'),
-            'commit' : self.findChild(QPushButton, 'commit_bw')
+            'commit' : self.findChild(QPushButton, 'commit_bw'),
+            'delete': self.findChild(QPushButton, 'delete_row_bw')
         }
         self.events_b = {
             'page' : self.findChild(QPushButton, 'events_b'),
             'add_row' : self.findChild(QPushButton, 'add_row_be'),
-            'commit' : self.findChild(QPushButton, 'commit_be')
+            'commit' : self.findChild(QPushButton, 'commit_be'),
+            'delete': self.findChild(QPushButton, 'delete_row_be')
         }
 
         self.intersection_b['page'].clicked.connect(self.intersection_b_clicked)
@@ -55,6 +60,12 @@ class Ui(QMainWindow, DBManager):
         self.vehicles_b['commit'].clicked.connect(self.commit)
         self.weather_b['commit'].clicked.connect(self.commit)
         self.events_b['commit'].clicked.connect(self.commit)
+
+        self.intersection_b['delete'].clicked.connect(self.delete)
+        self.lanes_b['delete'].clicked.connect(self.delete)
+        self.vehicles_b['delete'].clicked.connect(self.delete)
+        self.weather_b['delete'].clicked.connect(self.delete)
+        self.events_b['delete'].clicked.connect(self.delete)
 
         self.stackedWidget = self.findChild(QStackedWidget, 'stackedWidget')
         self.import_db()
@@ -89,7 +100,6 @@ class Ui(QMainWindow, DBManager):
                     item = QTableWidgetItem(str(lanes[i][j]))
                     item.setForeground(QBrush(QColor(255, 255, 255)))
                     table_lanes.setItem(i, j, item)
-
 
     def import_vehicles(self):
         vehicles = self.get_vehicles()
@@ -141,11 +151,45 @@ class Ui(QMainWindow, DBManager):
     def events_b_clicked(self):
         self.stackedWidget.setCurrentIndex(4)
 
+    def delete(self):
+        sender_button = self.sender()
+        parent_widget = sender_button.parentWidget().parentWidget()
+        table = parent_widget.findChild(QTableWidget)
+        # table.removeRow(table.currentRow())
+        for coloana in range(0, table.columnCount()):
+            item = table.item(table.currentRow(), coloana)
+            if item is not None:
+                item.setForeground(QBrush(QColor(255, 0, 0)))
+
     def add_row(self):
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget()
         table = parent_widget.findChild(QTableWidget)
+        table_name = sender_button.parentWidget().parentWidget().findChild(QLabel).text().lower()
+        #adaugare rand
         table.insertRow(table.rowCount())
+        # generare automata primary key pentru toate tabelele mai putin weather conditions
+        print(table_name)
+        if table_name != 'weather_conditions':
+            lista_index = list()
+            for i in range(0, table.rowCount()):
+                itemTabel = table.item(i, 0)
+                if itemTabel is not None:
+                    primary_key = int(itemTabel.text())
+                    lista_index.append(primary_key)
+            if len(lista_index) > 0:
+                minindex = -1
+                lista_index.sort()
+                print(lista_index)
+                for i in lista_index:
+                    if minindex < i and i-minindex <= 1:
+                        minindex = i
+                minindex += 1
+            else:
+                minindex = 0
+            item = QTableWidgetItem(str(minindex))
+            item.setForeground(QBrush(QColor(0, 255, 0)))
+            table.setItem(table.rowCount()-1, 0, item)
 
     def commit(self):
         sender_button = self.sender()

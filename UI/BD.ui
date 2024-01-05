@@ -241,7 +241,7 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Intersection</string>
+                <string>Intersections</string>
                </property>
                <property name="autoRepeat">
                 <bool>false</bool>
@@ -267,7 +267,8 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Traffic_lanes</string>
+                <string>Traffic 
+lanes</string>
                </property>
               </widget>
              </item>
@@ -313,7 +314,7 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Weather_
+                <string>Weather
 Conditions</string>
                </property>
               </widget>
@@ -337,7 +338,7 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>I_events</string>
+                <string>Events</string>
                </property>
               </widget>
              </item>
@@ -357,61 +358,54 @@ QPushButton:hover {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QStackedWidget" name="stackedWidget">
-            <property name="currentIndex">
-             <number>0</number>
+           <widget class="QLabel" name="Title_Text">
+            <property name="font">
+             <font>
+              <pointsize>40</pointsize>
+             </font>
             </property>
-            <widget class="QWidget" name="Intersection">
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <widget class="QLabel" name="label_1">
-                <property name="font">
-                 <font>
-                  <pointsize>40</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: #FFF;</string>
-                </property>
-                <property name="text">
-                 <string>Intersection</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
-                  <widget class="QPushButton" name="add_row_bi">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
+            <property name="styleSheet">
+             <string notr="true">color: #FFF;</string>
+            </property>
+            <property name="text">
+             <string>Intersections</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="buttons_frame">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QPushButton" name="add_row_b">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>80</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
 	background-color: rgb(35, 35, 35);
 	border: 0px solid;
@@ -419,31 +413,31 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(85, 170, 255);
 }</string>
-                   </property>
-                   <property name="text">
-                    <string>Add Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="delete_row_bi">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="autoFillBackground">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
+               </property>
+               <property name="text">
+                <string>Add Row</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="delete_row_b">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>80</height>
+                </size>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
 	background-color: rgb(35, 35, 35);
 	border: 0px solid;
@@ -451,28 +445,28 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(85, 170, 255);
 }</string>
-                   </property>
-                   <property name="text">
-                    <string>Delete Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="commit_bi">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
+               </property>
+               <property name="text">
+                <string>Delete Row</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="commit_b">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>80</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
 	background-color: rgb(35, 35, 35);
 	border: 0px solid;
@@ -480,97 +474,28 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(85, 170, 255);
 }</string>
-                   </property>
-                   <property name="text">
-                    <string>Commit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="table_intersection">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>80</height>
-                 </size>
-                </property>
-                <column>
-                 <property name="text">
-                  <string>intersection_id</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>intersection_name</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>intersection_location</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>traffic_control_type</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>maximum_speed_limit</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="Traffic_lanes">
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <item>
-               <widget class="QLabel" name="label_2">
-                <property name="font">
-                 <font>
-                  <pointsize>40</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: #FFF;</string>
-                </property>
-                <property name="text">
-                 <string>Traffic_Lanes</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame_2">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
-                 <item>
-                  <widget class="QPushButton" name="add_row_bl">
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
+               </property>
+               <property name="text">
+                <string>Commit</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="drop_b">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>80</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
 	background-color: rgb(35, 35, 35);
 	border: 0px solid;
@@ -578,568 +503,48 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(85, 170, 255);
 }</string>
-                   </property>
-                   <property name="text">
-                    <string>Add Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="delete_row_bl">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Delete Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="commit_bl">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Commit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="table_lanes">
-                <column>
-                 <property name="text">
-                  <string>lane_id</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>lane_type</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>traffic_direction</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>intersection_id</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="Vehicles">
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QLabel" name="label_3">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>40</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: #FFF;</string>
-                </property>
-                <property name="text">
-                 <string>Vehicles</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame_3">
-                <property name="minimumSize">
-                 <size>
-                  <width>40</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QPushButton" name="add_row_bv">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Add Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="delete_row_bv">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Delete Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="commit_bv">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Commit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="table_vehicles">
-                <column>
-                 <property name="text">
-                  <string>vehicle_id</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>vehicle_type</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>speed</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>direction</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>intersection_id</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="Weather_Conditions">
-             <layout class="QVBoxLayout" name="verticalLayout_9">
-              <item>
-               <widget class="QLabel" name="label_4">
-                <property name="font">
-                 <font>
-                  <pointsize>40</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: #FFF;</string>
-                </property>
-                <property name="text">
-                 <string>Weather_Conditions</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame_6">
-                <property name="minimumSize">
-                 <size>
-                  <width>40</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QPushButton" name="add_row_bw">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Add Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="delete_row_bw">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Delete Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="commit_bw">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Commit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="table_weather">
-                <column>
-                 <property name="text">
-                  <string>intersection_id</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>temperature</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>precipitation</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>wind_speed</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="I_events">
-             <layout class="QVBoxLayout" name="verticalLayout_10">
-              <item>
-               <widget class="QLabel" name="label_5">
-                <property name="font">
-                 <font>
-                  <pointsize>40</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: #FFF;</string>
-                </property>
-                <property name="text">
-                 <string>I_events</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame_5">
-                <property name="minimumSize">
-                 <size>
-                  <width>40</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QPushButton" name="add_row_be">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Add Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="delete_row_be">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Delete Row</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="commit_be">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>80</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Commit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="table_events">
-                <column>
-                 <property name="text">
-                  <string>event_id</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>event_type</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>event_description</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>event_time</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>intersection_id</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+               </property>
+               <property name="text">
+                <string>Drop</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="Database_table">
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>80</height>
+             </size>
+            </property>
+            <column>
+             <property name="text">
+              <string>intersection_id</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>intersection_name</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>intersection_location</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>traffic_control_type</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>maximum_speed_limit</string>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>

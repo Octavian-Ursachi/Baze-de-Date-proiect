@@ -62,11 +62,18 @@ class Ui(QMainWindow, DBManager):
     def test_valid_valoare(self, linie, coloana):
         if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback
             # print(linie, coloana)
-            valoare_inserata = self.widgetTabel.item(linie, coloana).text()
-            if teste.verifica_datatype(valoare_inserata, self.datatypes[self.loadedTable][coloana]):
-                print("Bun")
+            valoare_inserata = self.widgetTabel.item(linie, coloana)
+            if valoare_inserata is not None and valoare_inserata.text() != '':
+                if teste.verifica_datatype(valoare_inserata.text(), self.datatypes[self.loadedTable][coloana]):
+                    print("Tip de data bun")
+                    item = self.widgetTabel.item(linie, coloana)
+                    item.setBackground(QBrush(QColor(45, 45, 45)))
+                else:
+                    print("Tip de data Rau")
+                    item = self.widgetTabel.item(linie, coloana)
+                    item.setBackground(QBrush(QColor(255, 0, 0)))
             else:
-                print("Rau")
+                print("Nu pot verifica tipul de data")
 
     def load_columns(self):
         widgetTabel = self.findChild(QTableWidget, 'Database_table')

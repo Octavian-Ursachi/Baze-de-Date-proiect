@@ -21,6 +21,7 @@ class DBManager:
     def get_table(self, table_name):
         self.cur.execute('SELECT * FROM {table_name}'.format(table_name=table_name))
         tabel = []
+        print('SELECT * FROM {table_name}'.format(table_name=table_name))
         for row in self.cur:
             tabel.append(row)
         return tabel

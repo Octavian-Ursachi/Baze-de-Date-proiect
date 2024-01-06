@@ -3,6 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import *
 from DBManager import DBManager
 import sys
+import teste
 
 
 class Ui(QMainWindow, DBManager):
@@ -11,7 +12,8 @@ class Ui(QMainWindow, DBManager):
         super(Ui, self).__init__()
 
         uic.loadUi('UI/BD.ui', self)
-
+        # referinte la elemente din interfata grafica
+        self.widgetTabel = self.findChild(QTableWidget, 'Database_table')
         self.buttons = {
             'intersections' :  self.findChild(QPushButton, 'intersection_b'),
             'traffic_lanes': self.findChild(QPushButton, 'lanes_b'),
@@ -23,6 +25,7 @@ class Ui(QMainWindow, DBManager):
             'delete_row' : self.findChild(QPushButton, 'delete_row_b'),
             'drop' : self.findChild(QPushButton, 'drop_b')
         }
+        # conectarea callback-urilor de la referinte la functii
         self.buttons['intersections'].clicked.connect(self.intersection_b_clicked)
         self.buttons['traffic_lanes'].clicked.connect(self.lanes_b_clicked)
         self.buttons['vehicles'].clicked.connect(self.vehicles_b_clicked)
@@ -32,29 +35,49 @@ class Ui(QMainWindow, DBManager):
         self.buttons['commit'].clicked.connect(self.commit)
         self.buttons['delete_row'].clicked.connect(self.delete_row)
         self.buttons['drop'].clicked.connect(self.drop)
-
-        self.tables = {
+        self.widgetTabel.cellChanged.connect(self.test_valid_valoare)
+        self.column_names = {
             'intersections': ['intersection_id', 'intersection_name', 'intersection_location', 'traffic_control_type', 'maximum_speed_limit'],
             'traffic_lanes': ['lane_id', 'lane_type', 'traffic_direction', 'intersection_id'],
             'vehicles': ['vehicle_id', 'vehicle_type', 'speed', 'direction', 'intersection_id'],
             'weather_conditions':  ['intersection_id', 'temperature', 'precipitation', 'wind_speed'],
-            'events': ['event_id', 'event_type', 'event_description', 'event_time', 'intersection_id']
+            'i_events': ['event_id', 'event_type', 'event_description', 'event_time', 'intersection_id']
+        }
+        self.datatypes = {
+            'intersections': ['numeric', 'varchar2', 'varchar2', 'varchar2', 'numeric'],
+            'traffic_lanes': ['numeric', 'varchar2', 'varchar2', 'numeric'],
+            'vehicles': ['numeric', 'varchar2', 'numeric', 'varchar2', 'numeric'],
+            'weather_conditions': ['numeric', 'numeric', 'varchar2', 'numeric'],
+            'i_events': ['numeric', 'event_type', 'varchar2', 'timestamp', 'numeric']
         }
         self.loadedTable = 'intersections'
+        self.loadingReady = True
         # conexiunea la baza de date
         # self.connect(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
         self.localConnect(user='PROIECT_BD', password='123', hostport="localhost:1521")
+        # incarcare tabelul initial
         self.import_tabel()
         self.show()
 
+    def test_valid_valoare(self, linie, coloana):
+        if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback
+            # print(linie, coloana)
+            valoare_inserata = self.widgetTabel.item(linie, coloana).text()
+            if teste.verifica_datatype(valoare_inserata, self.datatypes[self.loadedTable][coloana]):
+                print("Bun")
+            else:
+                print("Rau")
+
     def load_columns(self):
         widgetTabel = self.findChild(QTableWidget, 'Database_table')
-        widgetTabel.setColumnCount(len(self.tables[self.loadedTable]))
-        for index in range(0, len(self.tables[self.loadedTable])):
-            widgetTabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.tables[self.loadedTable][index])))
+        widgetTabel.setColumnCount(len(self.column_names[self.loadedTable]))
+        for index in range(0, len(self.column_names[self.loadedTable])):
+            widgetTabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[self.loadedTable][index])))
 
     def import_tabel(self):
+        self.loadingReady = False
         tabel = self.get_table(self.loadedTable)
+        #seteaza numele coloanelor
         self.load_columns()
         if len(tabel) != 0:
             table_events = self.findChild(QTableWidget, 'Database_table')
@@ -70,6 +93,7 @@ class Ui(QMainWindow, DBManager):
             table_events.clearContents()
             while table_events.rowCount() > 0:
                 table_events.removeRow(0)
+        self.loadingReady = True
 
     def intersection_b_clicked(self):
         print("Loading table Intersections")
@@ -115,7 +139,7 @@ class Ui(QMainWindow, DBManager):
 
     def events_b_clicked(self):
         print("Loading table Events")
-        self.loadedTable = 'events'
+        self.loadedTable = 'i_events'
         self.import_tabel()
         # modificare titlu
         sender_button = self.sender()

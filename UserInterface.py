@@ -169,8 +169,10 @@ class Ui(QMainWindow, DBManager):
 
     def drop(self):
         print('dropping changes!')
+        self.import_tabel()
 
     def delete_row(self):
+        self.loadingReady = False
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget()
         table = parent_widget.findChild(QTableWidget)
@@ -179,6 +181,7 @@ class Ui(QMainWindow, DBManager):
             item = table.item(table.currentRow(), coloana)
             if item is not None:
                 item.setForeground(QBrush(QColor(255, 0, 0)))
+        self.loadingReady = True
 
     def add_row(self):
         self.loadingReady = False

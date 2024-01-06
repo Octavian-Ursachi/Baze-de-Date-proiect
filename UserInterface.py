@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from DBManager import DBManager
+from PyQt5 import QtCore
 import sys
 import teste
 
@@ -15,15 +16,15 @@ class Ui(QMainWindow, DBManager):
         # referinte la elemente din interfata grafica
         self.widgetTabel = self.findChild(QTableWidget, 'Database_table')
         self.buttons = {
-            'intersections' :  self.findChild(QPushButton, 'intersection_b'),
+            'intersections':  self.findChild(QPushButton, 'intersection_b'),
             'traffic_lanes': self.findChild(QPushButton, 'lanes_b'),
             'vehicles': self.findChild(QPushButton, 'vehicles_b'),
             'weather_conditions': self.findChild(QPushButton, 'weather_b'),
             'events': self.findChild(QPushButton, 'events_b'),
-            'add_row' : self.findChild(QPushButton, 'add_row_b'),
-            'commit' : self.findChild(QPushButton, 'commit_b'),
-            'delete_row' : self.findChild(QPushButton, 'delete_row_b'),
-            'drop' : self.findChild(QPushButton, 'drop_b')
+            'add_row': self.findChild(QPushButton, 'add_row_b'),
+            'commit': self.findChild(QPushButton, 'commit_b'),
+            'delete_row': self.findChild(QPushButton, 'delete_row_b'),
+            'drop': self.findChild(QPushButton, 'drop_b')
         }
         # conectarea callback-urilor de la referinte la functii
         self.buttons['intersections'].clicked.connect(self.intersection_b_clicked)
@@ -50,6 +51,13 @@ class Ui(QMainWindow, DBManager):
             'weather_conditions': ['numeric', 'numeric', 'varchar2', 'numeric'],
             'i_events': ['numeric', 'event_type', 'varchar2', 'timestamp', 'numeric']
         }
+        self.constrangeri = {
+            'intersections': ['primary_key', '', '', '', ''],
+            'traffic_lanes': ['primary_key', '', 'check', 'foreign_key'],
+            'vehicles': ['primary_key', '', '', 'check', 'foreign_key'],
+            'weather_conditions': ['foreign_key', '', '', ''],
+            'i_events': ['primary_key', '', '', '', 'foreign_key']
+        }
         self.loadedTable = 'intersections'
         self.loadingReady = True
         # conexiunea la baza de date
@@ -68,6 +76,7 @@ class Ui(QMainWindow, DBManager):
                     print("Tip de data bun")
                     item = self.widgetTabel.item(linie, coloana)
                     item.setBackground(QBrush(QColor(45, 45, 45)))
+                    item.setForeground(QBrush(QColor(0, 255, 0)))
                 else:
                     print("Tip de data Rau")
                     item = self.widgetTabel.item(linie, coloana)
@@ -84,7 +93,7 @@ class Ui(QMainWindow, DBManager):
     def import_tabel(self):
         self.loadingReady = False
         tabel = self.get_table(self.loadedTable)
-        #seteaza numele coloanelor
+        # seteaza numele coloanelor
         self.load_columns()
         if len(tabel) != 0:
             table_events = self.findChild(QTableWidget, 'Database_table')
@@ -95,6 +104,10 @@ class Ui(QMainWindow, DBManager):
                     item = QTableWidgetItem(str(tabel[i][j]))
                     item.setForeground(QBrush(QColor(255, 255, 255)))
                     table_events.setItem(i, j, item)
+                    # constraint check pentru ca primary key sa fie nemodificabil
+                    if self.constrangeri[self.loadedTable][j] == 'primary_key':
+                        self.widgetTabel.item(i, j).setFlags(QtCore.Qt.NoItemFlags)
+                        self.widgetTabel.item(i, j).setBackground(QBrush(QColor(15, 15, 15)))
         else:
             table_events = self.findChild(QTableWidget, 'Database_table')
             table_events.clearContents()
@@ -168,6 +181,7 @@ class Ui(QMainWindow, DBManager):
                 item.setForeground(QBrush(QColor(255, 0, 0)))
 
     def add_row(self):
+        self.loadingReady = False
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget()
         table = parent_widget.findChild(QTableWidget)
@@ -177,9 +191,9 @@ class Ui(QMainWindow, DBManager):
         if self.loadedTable != 'weather_conditions':
             lista_index = list()
             for i in range(0, table.rowCount()):
-                itemTabel = table.item(i, 0)
-                if itemTabel is not None:
-                    primary_key = int(itemTabel.text())
+                item_tabel = table.item(i, 0)
+                if item_tabel is not None:
+                    primary_key = int(item_tabel.text())
                     lista_index.append(primary_key)
             if len(lista_index) > 0:
                 minindex = -1
@@ -194,6 +208,11 @@ class Ui(QMainWindow, DBManager):
             item = QTableWidgetItem(str(minindex))
             item.setForeground(QBrush(QColor(0, 255, 0)))
             table.setItem(table.rowCount()-1, 0, item)
+            # e putin hardcodat, ar merge imbunatatit
+            if self.constrangeri[self.loadedTable][0] == 'primary_key':
+                self.widgetTabel.item(self.widgetTabel.rowCount()-1, 0).setFlags(QtCore.Qt.NoItemFlags)
+                self.widgetTabel.item(self.widgetTabel.rowCount()-1, 0).setBackground(QBrush(QColor(15, 15, 15)))
+        self.loadingReady = True
 
     def commit(self):
         sender_button = self.sender()
@@ -237,18 +256,18 @@ class Ui(QMainWindow, DBManager):
         new_rows, fields = self.prepare_data(new_rows, fields)
         commands = []
         for i in range(len(new_rows)):
-            commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name,fields,new_rows[i]))
+            commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name, fields, new_rows[i]))
         for command in commands:
             try:
                 print(command)
                 self.cur.execute(command)
-                if 1: # poate un pop-up (Atentie, sigur doriti sa modificati?)
+                if 1:  # poate un pop-up (Atentie, sigur doriti sa modificati?)
                     self.cur.execute('commit')
                 print('Insert Complete!')
             except Exception as e:
                 print(e)
 
-    def prepare_data(self,rows,fields):
+    def prepare_data(self, rows, fields):
         filtered_rows = [tup for tup in rows if tup]
         field_str = ''
         row_str = ''
@@ -267,7 +286,7 @@ class Ui(QMainWindow, DBManager):
             field_str += elem + ','
         field_str = field_str[:-1]
 
-        return rows,field_str
+        return rows, field_str
 
     def get_text_color(self, table_item):
         if table_item is not None:

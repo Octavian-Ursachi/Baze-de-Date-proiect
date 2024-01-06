@@ -33,95 +33,60 @@ class Ui(QMainWindow, DBManager):
         self.buttons['delete_row'].clicked.connect(self.delete_row)
         self.buttons['drop'].clicked.connect(self.drop)
 
+        self.tables = {
+            'intersections': ['intersection_id', 'intersection_name', 'intersection_location', 'traffic_control_type', 'maximum_speed_limit'],
+            'traffic_lanes': ['lane_id', 'lane_type', 'traffic_direction', 'intersection_id'],
+            'vehicles': ['vehicle_id', 'vehicle_type', 'speed', 'direction', 'intersection_id'],
+            'weather_conditions':  ['intersection_id', 'temperature', 'precipitation', 'wind_speed'],
+            'events': ['event_id', 'event_type', 'event_description', 'event_time', 'intersection_id']
+        }
         self.loadedTable = 'intersections'
         # conexiunea la baza de date
         # self.connect(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
         self.localConnect(user='PROIECT_BD', password='123', hostport="localhost:1521")
-        # self.import_db()
-        self.import_intersection()
+        self.import_tabel()
         self.show()
 
-    def import_db(self):
-        self.import_intersection()
-        self.import_lanes()
-        self.import_vehicles()
-        self.import_weather()
-        self.import_events()
+    def load_columns(self):
+        widgetTabel = self.findChild(QTableWidget, 'Database_table')
+        widgetTabel.setColumnCount(len(self.tables[self.loadedTable]))
+        for index in range(0, len(self.tables[self.loadedTable])):
+            widgetTabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.tables[self.loadedTable][index])))
 
-    def import_intersection(self):
-        intersection = self.get_intersection()
-        if intersection != 0:
-            table_intersection = self.findChild(QTableWidget, 'Database_table')
-            table_intersection.setColumnCount(len(intersection))
-            table_intersection.setRowCount(1)
-            for i in range(len(intersection)):
-                item = QTableWidgetItem(str(intersection[i]))
-                item.setForeground(QBrush(QColor(255, 255, 255)))
-                table_intersection.setItem(0, i, item)
-            
-    def import_lanes(self):
-        lanes = self.get_lanes()
-        if len(lanes) != 0:
-            table_lanes = self.findChild(QTableWidget, 'Database_table')
-            table_lanes.setColumnCount(len(lanes[0]))
-            table_lanes.setRowCount(len(lanes))
-            for i in range(len(lanes)):
-                for j in range(len(lanes[0])):
-                    item = QTableWidgetItem(str(lanes[i][j]))
-                    item.setForeground(QBrush(QColor(255, 255, 255)))
-                    table_lanes.setItem(i, j, item)
-
-    def import_vehicles(self):
-        vehicles = self.get_vehicles()
-        if len(vehicles) != 0:
-            table_vehicles = self.findChild(QTableWidget, 'Database_table')
-            table_vehicles.setColumnCount(len(vehicles[0]))
-            table_vehicles.setRowCount(len(vehicles))
-            for i in range(len(vehicles)):
-                for j in range(len(vehicles[0])):
-                    item = QTableWidgetItem(str(vehicles[i][j]))
-                    item.setForeground(QBrush(QColor(255, 255, 255)))
-                    table_vehicles.setItem(i, j, item)
-
-    def import_weather(self):
-        weather = self.get_weather()
-        if weather != 0:
-            table_weather = self.findChild(QTableWidget, 'Database_table')
-            table_weather.setColumnCount(len(weather))
-            table_weather.setRowCount(1)
-            for i in range(len(weather)):
-                item = QTableWidgetItem(str(weather[i]))
-                item.setForeground(QBrush(QColor(255, 255, 255)))
-                table_weather.setItem(0, i, item)
-
-    def import_events(self):
-        events = self.get_events()
-        if len(events) != 0:
+    def import_tabel(self):
+        tabel = self.get_table(self.loadedTable)
+        self.load_columns()
+        if len(tabel) != 0:
             table_events = self.findChild(QTableWidget, 'Database_table')
-            table_events.setColumnCount(len(events[0]))
-            table_events.setRowCount(len(events))
-            for i in range(len(events)):
-                for j in range(len(events[0])):
-                    item = QTableWidgetItem(str(events[i][j]))
+            table_events.setColumnCount(len(tabel[0]))
+            table_events.setRowCount(len(tabel))
+            for i in range(len(tabel)):
+                for j in range(len(tabel[0])):
+                    item = QTableWidgetItem(str(tabel[i][j]))
                     item.setForeground(QBrush(QColor(255, 255, 255)))
                     table_events.setItem(i, j, item)
+        else:
+            table_events = self.findChild(QTableWidget, 'Database_table')
+            table_events.clearContents()
+            while table_events.rowCount() > 0:
+                table_events.removeRow(0)
 
     def intersection_b_clicked(self):
         print("Loading table Intersections")
         # schimbare stare interna
         self.loadedTable = 'intersections'
         # incarcare linii din baza de date
-        self.import_intersection()
+        self.import_tabel()
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
-        titlu.setText('Intersection')
+        titlu.setText('Intersections')
 
     def lanes_b_clicked(self):
         print("Loading table Traffic Lanes")
         self.loadedTable = 'traffic_lanes'
-        self.import_lanes()
+        self.import_tabel()
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
@@ -131,7 +96,7 @@ class Ui(QMainWindow, DBManager):
     def vehicles_b_clicked(self):
         print("Loading table Vehicles")
         self.loadedTable = 'vehicles'
-        self.import_vehicles()
+        self.import_tabel()
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
@@ -141,7 +106,7 @@ class Ui(QMainWindow, DBManager):
     def weather_b_clicked(self):
         print("Loading table Weather Conditions")
         self.loadedTable = 'weather_conditions'
-        self.import_weather()
+        self.import_tabel()
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
@@ -151,7 +116,7 @@ class Ui(QMainWindow, DBManager):
     def events_b_clicked(self):
         print("Loading table Events")
         self.loadedTable = 'events'
-        self.import_events()
+        self.import_tabel()
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
@@ -251,7 +216,6 @@ class Ui(QMainWindow, DBManager):
                 print('Insert Complete!')
             except Exception as e:
                 print(e)
-
 
     def prepare_data(self,rows,fields):
         filtered_rows = [tup for tup in rows if tup]

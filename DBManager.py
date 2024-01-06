@@ -18,35 +18,9 @@ class DBManager:
         self.cur = self.con.cursor()
         print("Connected!")
 
-    def get_intersection(self):
-        self.cur.execute('SELECT * FROM intersection')
+    def get_table(self, table_name):
+        self.cur.execute('SELECT * FROM {table_name}'.format(table_name=table_name))
+        tabel = []
         for row in self.cur:
-            intersection = row
-        return intersection
-
-    def get_lanes(self):
-        self.cur.execute('SELECT * FROM traffic_lanes')
-        lanes = []
-        for row in self.cur:
-            lanes.append(row)
-        return lanes
-
-    def get_vehicles(self):
-        self.cur.execute('SELECT * FROM vehicles')
-        vehicles = []
-        for row in self.cur:
-            vehicles.append(row)
-        return vehicles
-
-    def get_weather(self):
-        self.cur.execute('SELECT * FROM weather_conditions')
-        for row in self.cur:
-            weather = row
-        return weather
-
-    def get_events(self):
-        self.cur.execute('SELECT * FROM i_events')
-        events = []
-        for row in self.cur:
-            events.append(row)
-        return events
+            tabel.append(row)
+        return tabel

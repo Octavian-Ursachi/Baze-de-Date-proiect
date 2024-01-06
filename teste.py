@@ -10,10 +10,15 @@ def verifica_datatype(valoare, tip_data):
             return False
     elif len(valoare) == 19:
         text = valoare
-        rezultat = re.search("[2-9][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]", text)
+        rezultat = re.search("[2-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]", text)
         if rezultat is not None:
             # print(valoare+" e timestamp?")
-            if tip_data == 'timestamp':
+            # trebuie verificate in plus luna ziua si ora pentru ca regexul nu e suficient de exact
+            luna = int(text[5]+text[6])
+            ziua = int(text[8]+text[9])
+            ora = int(text[11]+text[12])
+            print(luna, ziua, ora)
+            if tip_data == 'timestamp' and 0 < luna <= 12 and 0 < ziua <= 31 and ora <= 23:
                 return True
             else:
                 return False
@@ -32,6 +37,6 @@ def verifica_datatype(valoare, tip_data):
 
 
 if __name__ == '__main__':
-    listaCiudata = (('123', 'numeric'), ('2023-00-20 10:00:00', 'timestamp'), ('segehg', 'varchar2'),  ('segehgjdjdjdjdjdjdj', 'timestamp'))
+    listaCiudata = (('123', 'numeric'), ('2023-12-32 22:59:00', 'timestamp'), ('segehg', 'varchar2'),  ('segehgjdjdjdjdjdjdj', 'timestamp'))
     for valoare in listaCiudata:
         print("Este "+valoare[0]+" "+valoare[1]+" ? "+str(verifica_datatype(valoare[0], valoare[1])))

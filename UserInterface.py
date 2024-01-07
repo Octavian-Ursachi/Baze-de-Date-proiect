@@ -287,7 +287,7 @@ class Ui(QMainWindow, DBManager):
                 self.test_valid_valoare(self.widgetTabel.rowCount() - 1, coloana)
 
     def check_linie(self, linie):
-        for coloana in range(linie, self.widgetTabel.columnCount()):
+        for coloana in range(0, self.widgetTabel.columnCount()):
             if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).background() == QBrush(QColor(255, 0, 0)):
                 return False
         return True
@@ -298,8 +298,9 @@ class Ui(QMainWindow, DBManager):
             if self.check_linie(linie) is False:
                 print("Nu toate elementele sunt Valide!")
                 #self.cur.execute('drop')
-                return False
-            if self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(0, 255, 0)):
+                break
+                # return False
+            elif self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(0, 255, 0)):
                 print("Adaug linia "+str(linie))
                 nume_coloane = ''
                 valori_noi = ''
@@ -329,18 +330,8 @@ class Ui(QMainWindow, DBManager):
                         comanda = "update {} set {} where {} =  {}".format(self.loadedTable, string_set, self.column_names[self.loadedTable][0], self.widgetTabel.item(linie, 0).text())
                         print(comanda)
                         self.cur.execute(comanda)
-        self.import_tabel(self.widgetTabel, self.loadedTable)
-        return True
-            #for i in range(len(new_rows)):
-        #    commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name, fields, new_rows[i]))
-        #for command in commands:
-        #    try:
-        #        print(command)
-        #        self.cur.execute(command)
-        #        self.cur.execute('commit')
-        #        print('Insert Complete!')
-        #    except Exception as e:
-        #        print(e)
+        #self.import_tabel(self.widgetTabel, self.loadedTable)
+        #return True
 
     def prepare_data(self, rows, fields):
         filtered_rows = [tup for tup in rows if tup]

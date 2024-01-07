@@ -36,6 +36,18 @@ def verifica_datatype(valoare, tip_data):
             return False
 
 
+def verifica_constrangeri(valoare, constrangere):
+    if constrangere == 'not_null' or constrangere == 'foreign_key' or constrangere == 'primary_key':
+        print("Nenul")
+        if valoare == '':
+            return False
+        else:
+            return True
+    else:
+        print("Alta constrangere")
+        return True
+
+
 if __name__ == '__main__':
     listaCiudata = (('123', 'numeric'), ('2023-12-32 22:59:00', 'timestamp'), ('segehg', 'varchar2'),  ('segehgjdjdjdjdjdjdj', 'timestamp'))
     for valoare in listaCiudata:

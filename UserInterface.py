@@ -69,20 +69,29 @@ class Ui(QMainWindow, DBManager):
 
     def test_valid_valoare(self, linie, coloana):
         if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback
-            # print(linie, coloana)
             valoare_inserata = self.widgetTabel.item(linie, coloana)
-            if valoare_inserata is not None and valoare_inserata.text() != '':
-                if teste.verifica_datatype(valoare_inserata.text(), self.datatypes[self.loadedTable][coloana]):
-                    print("Tip de data bun")
-                    item = self.widgetTabel.item(linie, coloana)
-                    item.setBackground(QBrush(QColor(45, 45, 45)))
-                    item.setForeground(QBrush(QColor(0, 255, 0)))
+            if valoare_inserata is not None:
+                if teste.verifica_constrangeri(valoare_inserata.text(), self.constrangeri[self.loadedTable][coloana]):
+                    print("Constrangeri ok")
+                    if valoare_inserata.text() != '':
+                        if teste.verifica_datatype(valoare_inserata.text(), self.datatypes[self.loadedTable][coloana]):
+                            print("Tip de data bun")
+                            item = self.widgetTabel.item(linie, coloana)
+                            item.setBackground(QBrush(QColor(45, 45, 45)))
+                            item.setForeground(QBrush(QColor(0, 255, 0)))
+                        else:
+                            print("Tip de data Rau")
+                            item = self.widgetTabel.item(linie, coloana)
+                            item.setBackground(QBrush(QColor(255, 0, 0)))
+                    else:
+                        print("Itemul e gol")
                 else:
-                    print("Tip de data Rau")
+                    print("Constrangeri NOT ok")
                     item = self.widgetTabel.item(linie, coloana)
                     item.setBackground(QBrush(QColor(255, 0, 0)))
             else:
-                print("Nu pot verifica tipul de data")
+                print("Itemul e gol")
+
 
     def load_columns(self):
         widgetTabel = self.findChild(QTableWidget, 'Database_table')
@@ -201,7 +210,6 @@ class Ui(QMainWindow, DBManager):
             if len(lista_index) > 0:
                 minindex = -1
                 lista_index.sort()
-                print(lista_index)
                 for i in lista_index:
                     if minindex < i and i-minindex <= 1:
                         minindex = i

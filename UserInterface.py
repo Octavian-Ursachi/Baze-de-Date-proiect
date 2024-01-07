@@ -90,7 +90,13 @@ class Ui(QMainWindow, DBManager):
                     item = self.widgetTabel.item(linie, coloana)
                     item.setBackground(QBrush(QColor(255, 0, 0)))
             else:
-                print("Itemul e gol")
+                if teste.verifica_constrangeri('', self.constrangeri[self.loadedTable][coloana]):
+                    print("Nimic inserat"+str(linie)+" "+str(coloana))
+                else:
+                    print("Constrangeri not OK")
+                    item = QTableWidgetItem()
+                    item.setBackground(QBrush(QColor(255, 0, 0)))
+                    self.widgetTabel.setItem(linie, coloana, item)
 
 
     def load_columns(self):
@@ -223,7 +229,13 @@ class Ui(QMainWindow, DBManager):
             if self.constrangeri[self.loadedTable][0] == 'primary_key':
                 self.widgetTabel.item(self.widgetTabel.rowCount()-1, 0).setFlags(QtCore.Qt.NoItemFlags)
                 self.widgetTabel.item(self.widgetTabel.rowCount()-1, 0).setBackground(QBrush(QColor(15, 15, 15)))
-        self.loadingReady = True
+            self.loadingReady = True
+            for coloana in range(1, self.widgetTabel.columnCount()):
+                self.test_valid_valoare(self.widgetTabel.rowCount()-1, coloana)
+        else:
+            self.loadingReady = True
+            for coloana in range(0, self.widgetTabel.columnCount()):
+                self.test_valid_valoare(self.widgetTabel.rowCount() - 1, coloana)
 
     def commit(self):
         sender_button = self.sender()

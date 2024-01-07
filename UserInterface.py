@@ -286,58 +286,53 @@ class Ui(QMainWindow, DBManager):
             for coloana in range(0, self.widgetTabel.columnCount()):
                 self.test_valid_valoare(self.widgetTabel.rowCount() - 1, coloana)
 
+    def check_linie(self, linie):
+        for coloana in range(linie, self.widgetTabel.columnCount()):
+            if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).background() == QBrush(QColor(255, 0, 0)):
+                return False
+        return True
+
     def commit(self):
-        sender_button = self.sender()
-        parent_widget = sender_button.parentWidget().parentWidget()
-        label = sender_button.parentWidget().parentWidget().findChild(QLabel)
-        table = parent_widget.findChild(QTableWidget)
-        data = []
-        new_data = []
-        rows = []
+        # self.cur.execute('begin tran\n')
+        for linie in range(0, self.widgetTabel.rowCount()):
+            if self.check_linie(linie) is False:
+                print("Nu toate elementele sunt Valide!")
+                #self.cur.execute('drop')
+                return False
+            if self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(0, 255, 0)):
+                print("Adaug linia "+str(linie))
+                nume_coloane = ''
+                valori_noi = ''
+                for coloana in range(0, self.widgetTabel.columnCount()):
+                    if self.widgetTabel.item(linie, coloana) is not None:
+                        nume_coloane += self.column_names[self.loadedTable][coloana]+', '
+                        valori_noi += "'"+self.widgetTabel.item(linie, coloana).text()+"'"+', '
+                nume_coloane = nume_coloane[:-2]
+                valori_noi = valori_noi[:-2]
+                comanda = "insert into {} ({}) values ({})".format(self.loadedTable, nume_coloane, valori_noi)
+                print(comanda)
+                self.cur.execute(comanda)
+            elif self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(255, 0, 0)):
+                print("Sterg linia "+str(linie))
+            else:
+                for coloana in range(1, self.widgetTabel.columnCount()):
+                    if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).foreground() == QBrush(QColor(0, 255, 0)):
+                        print("Modific linia "+str(linie)+" pe coloana "+str(coloana))
 
-        # data for inserting
-        table_name = label.text().lower()
-        new_rows = []
-        fields = []
 
-        for col in range(table.columnCount()):
-            fields.append(table.horizontalHeaderItem(col).text())
-        for row in range(table.rowCount()):
-            for col in range(table.columnCount()):
-                try:
-                    item = table.item(row, col)
-                    text = item.text()
-                    data.append(text)
-                    color = self.get_text_color(item).getRgb()
-                    if color == (0, 0, 0, 255):
-                        new_data.append(text)
-                except:
-                    new_data.append('')
-                    data.append("None")
-            rows.append(tuple(data))
-            new_rows.append(tuple(new_data))
-            data = []
-            new_data = []
 
-        # momentan pentru ca o linie sa fie valida pentru a fi inserata trebuie sa aiba valori nenule pentru fiecare element
-        for row in new_rows:
-            if '' in row:
-                print('Invalid row')
-                break
 
-        new_rows, fields = self.prepare_data(new_rows, fields)
-        commands = []
-        for i in range(len(new_rows)):
-            commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name, fields, new_rows[i]))
-        for command in commands:
-            try:
-                print(command)
-                self.cur.execute(command)
-                if 1:  # poate un pop-up (Atentie, sigur doriti sa modificati?)
-                    self.cur.execute('commit')
-                print('Insert Complete!')
-            except Exception as e:
-                print(e)
+        return True
+            #for i in range(len(new_rows)):
+        #    commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name, fields, new_rows[i]))
+        #for command in commands:
+        #    try:
+        #        print(command)
+        #        self.cur.execute(command)
+        #        self.cur.execute('commit')
+        #        print('Insert Complete!')
+        #    except Exception as e:
+        #        print(e)
 
     def prepare_data(self, rows, fields):
         filtered_rows = [tup for tup in rows if tup]

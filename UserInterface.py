@@ -66,7 +66,7 @@ class Ui(QMainWindow, DBManager):
         # self.connect(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
         self.localConnect(user='PROIECT_BD', password='123', hostport="localhost:1521")
         # incarcare tabelul initial
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         self.show()
 
     def test_valid_valoare(self, linie, coloana):
@@ -101,39 +101,51 @@ class Ui(QMainWindow, DBManager):
                     self.widgetTabel.setItem(linie, coloana, item)
 
     def casuta_apasata(self, linie, coloana):
-        print("Casuta apasata la "+str(linie)+" "+str(coloana))
+        # print("Casuta apasata la "+str(linie)+" "+str(coloana))
         if self.constrangeri[self.loadedTable][coloana] == 'foreign_key':
-            print("Deschidere selectie pentru foreign key")
+            # print("Deschidere selectie pentru foreign key")
             self.load_columns(self.widgetForeignTabel)
+            if self.loadedTable == 'traffic_lanes':
+                print("Foreign key pentru Trafiic lanes")
+                self.import_tabel(self.widgetForeignTabel, 'intersections')
+            elif self.loadedTable == 'vehicles':
+                print("Foreign key pentru Vehicles")
+                self.import_tabel(self.widgetForeignTabel, 'traffic_lanes')
+            elif self.loadedTable == 'weather_conditions':
+                print("Foreign key pentru Weather")
+                self.import_tabel(self.widgetForeignTabel, 'intersections')
+            elif self.loadedTable == 'i_events':
+                print("Foreign key pentru events")
+                self.import_tabel(self.widgetForeignTabel, 'intersections')
 
     def load_columns(self, tabel):
         tabel.setColumnCount(len(self.column_names[self.loadedTable]))
         for index in range(0, len(self.column_names[self.loadedTable])):
             tabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[self.loadedTable][index])))
 
-    def import_tabel(self):
+    def import_tabel(self, tabel_destinatie, numeTabel):
         self.loadingReady = False
-        tabel = self.get_table(self.loadedTable)
+        tabel = self.get_table(numeTabel)
         # seteaza numele coloanelor
-        self.load_columns(self.widgetTabel)
+        self.load_columns(tabel_destinatie)
         if len(tabel) != 0:
-            table_events = self.findChild(QTableWidget, 'Database_table')
-            table_events.setColumnCount(len(tabel[0]))
-            table_events.setRowCount(len(tabel))
+            # table_events = self.findChild(QTableWidget, 'Database_table')
+            tabel_destinatie.setColumnCount(len(tabel[0]))
+            tabel_destinatie.setRowCount(len(tabel))
             for i in range(len(tabel)):
                 for j in range(len(tabel[0])):
                     item = QTableWidgetItem(str(tabel[i][j]))
                     item.setForeground(QBrush(QColor(255, 255, 255)))
-                    table_events.setItem(i, j, item)
+                    tabel_destinatie.setItem(i, j, item)
                     # constraint check pentru ca primary key sa fie nemodificabil
-                    if self.constrangeri[self.loadedTable][j] == 'primary_key':
-                        self.widgetTabel.item(i, j).setFlags(QtCore.Qt.NoItemFlags)
-                        self.widgetTabel.item(i, j).setBackground(QBrush(QColor(15, 15, 15)))
+                    if self.constrangeri[numeTabel][j] == 'primary_key':
+                        tabel_destinatie.item(i, j).setFlags(QtCore.Qt.NoItemFlags)
+                        tabel_destinatie.item(i, j).setBackground(QBrush(QColor(15, 15, 15)))
         else:
-            table_events = self.findChild(QTableWidget, 'Database_table')
-            table_events.clearContents()
-            while table_events.rowCount() > 0:
-                table_events.removeRow(0)
+            # table_events = self.findChild(QTableWidget, 'Database_table')
+            tabel_destinatie.clearContents()
+            while tabel_destinatie.rowCount() > 0:
+                tabel_destinatie.removeRow(0)
         self.loadingReady = True
 
     def intersection_b_clicked(self):
@@ -141,56 +153,71 @@ class Ui(QMainWindow, DBManager):
         # schimbare stare interna
         self.loadedTable = 'intersections'
         # incarcare linii din baza de date
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
         titlu.setText('Intersections')
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def lanes_b_clicked(self):
         print("Loading table Traffic Lanes")
         self.loadedTable = 'traffic_lanes'
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
         titlu.setText('Traffic Lanes')
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def vehicles_b_clicked(self):
         print("Loading table Vehicles")
         self.loadedTable = 'vehicles'
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
         titlu.setText('Vehicles')
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def weather_b_clicked(self):
         print("Loading table Weather Conditions")
         self.loadedTable = 'weather_conditions'
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
         titlu.setText('Weather Conditions')
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def events_b_clicked(self):
         print("Loading table Events")
         self.loadedTable = 'i_events'
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         # modificare titlu
         sender_button = self.sender()
         parent_widget = sender_button.parentWidget().parentWidget().parentWidget()
         titlu = parent_widget.findChild(QLabel, 'Title_Text')
         titlu.setText('Events')
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def drop(self):
         print('dropping changes!')
-        self.import_tabel()
+        self.import_tabel(self.widgetTabel, self.loadedTable)
 
     def delete_row(self):
         self.loadingReady = False

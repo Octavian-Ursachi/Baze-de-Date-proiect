@@ -293,13 +293,12 @@ class Ui(QMainWindow, DBManager):
         return True
 
     def commit(self):
-        # self.cur.execute('begin tran\n')
+        self.cur.execute('set transaction read write\n')
         for linie in range(0, self.widgetTabel.rowCount()):
             if self.check_linie(linie) is False:
                 print("Nu toate elementele sunt Valide!")
-                #self.cur.execute('drop')
-                break
-                # return False
+                self.cur.execute('rollback')
+                return False
             elif self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(0, 255, 0)):
                 print("Adaug linia "+str(linie))
                 nume_coloane = ''
@@ -330,8 +329,9 @@ class Ui(QMainWindow, DBManager):
                         comanda = "update {} set {} where {} =  {}".format(self.loadedTable, string_set, self.column_names[self.loadedTable][0], self.widgetTabel.item(linie, 0).text())
                         print(comanda)
                         self.cur.execute(comanda)
-        #self.import_tabel(self.widgetTabel, self.loadedTable)
-        #return True
+        self.cur.execute('commit')
+        self.import_tabel(self.widgetTabel, self.loadedTable)
+        return True
 
     def prepare_data(self, rows, fields):
         filtered_rows = [tup for tup in rows if tup]

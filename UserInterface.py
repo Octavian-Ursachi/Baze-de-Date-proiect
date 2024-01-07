@@ -71,7 +71,11 @@ class Ui(QMainWindow, DBManager):
         self.show()
 
     def foreign_key_selectat(self, linie, coloana):
-        print("A selectat foreign key-ul cu id-ul "+str(self.widgetForeignTabel.item(linie, 0).text()))
+        foreign_id_selectat = self.widgetForeignTabel.item(linie, 0).text()
+        print("A selectat foreign key-ul cu id-ul "+str(foreign_id_selectat))
+        item = QTableWidgetItem()
+        item.setText(foreign_id_selectat)
+        self.widgetTabel.setItem(self.widgetTabel.currentRow(), self.widgetTabel.currentColumn(), item)
 
     def test_valid_valoare(self, linie, coloana):
         if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback

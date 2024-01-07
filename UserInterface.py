@@ -43,7 +43,7 @@ class Ui(QMainWindow, DBManager):
         self.column_names = {
             'intersections': ['intersection_id', 'intersection_name', 'intersection_location', 'traffic_control_type', 'maximum_speed_limit'],
             'traffic_lanes': ['lane_id', 'lane_type', 'traffic_direction', 'intersection_id'],
-            'vehicles': ['vehicle_id', 'vehicle_type', 'speed', 'direction', 'intersection_id'],
+            'vehicles': ['vehicle_id', 'vehicle_type', 'speed', 'direction', 'lane_id'],
             'weather_conditions':  ['intersection_id', 'temperature', 'precipitation', 'wind_speed'],
             'i_events': ['event_id', 'event_type', 'event_description', 'event_time', 'intersection_id']
         }
@@ -73,9 +73,13 @@ class Ui(QMainWindow, DBManager):
     def foreign_key_selectat(self, linie, coloana):
         foreign_id_selectat = self.widgetForeignTabel.item(linie, 0).text()
         print("A selectat foreign key-ul cu id-ul "+str(foreign_id_selectat))
-        item = QTableWidgetItem()
-        item.setText(foreign_id_selectat)
-        self.widgetTabel.setItem(self.widgetTabel.currentRow(), self.widgetTabel.currentColumn(), item)
+        if foreign_id_selectat != self.widgetTabel.item(self.widgetTabel.currentRow(), self.widgetTabel.currentColumn()).text():
+            item = QTableWidgetItem()
+            item.setText(foreign_id_selectat)
+            self.widgetTabel.setItem(self.widgetTabel.currentRow(), self.widgetTabel.currentColumn(), item)
+        self.widgetForeignTabel.clear()
+        self.widgetForeignTabel.setRowCount(0)
+        self.widgetForeignTabel.setColumnCount(0)
 
     def test_valid_valoare(self, linie, coloana):
         if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback

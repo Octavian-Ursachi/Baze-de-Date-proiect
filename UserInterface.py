@@ -314,14 +314,14 @@ class Ui(QMainWindow, DBManager):
                 self.cur.execute(comanda)
             elif self.widgetTabel.item(linie, 0) is not None and self.widgetTabel.item(linie, 0).foreground() == QBrush(QColor(255, 0, 0)):
                 print("Sterg linia "+str(linie))
+                comanda = "delete from {} where {}={}".format(self.loadedTable, self.column_names[self.loadedTable][0], self.widgetTabel.item(linie, 0).text())
+                print(comanda)
+                self.cur.execute(comanda)
             else:
                 for coloana in range(1, self.widgetTabel.columnCount()):
                     if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).foreground() == QBrush(QColor(0, 255, 0)):
                         print("Modific linia "+str(linie)+" pe coloana "+str(coloana))
-
-
-
-
+        self.import_tabel(self.widgetTabel, self.loadedTable)
         return True
             #for i in range(len(new_rows)):
         #    commands.append("INSERT INTO {}({}) VALUES ({})".format(table_name, fields, new_rows[i]))

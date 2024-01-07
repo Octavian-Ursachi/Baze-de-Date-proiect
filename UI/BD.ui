@@ -547,6 +547,16 @@ QPushButton:hover {
             </column>
            </widget>
           </item>
+          <item>
+           <widget class="QTableWidget" name="Foreign_table">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>200</height>
+             </size>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

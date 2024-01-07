@@ -15,6 +15,7 @@ class Ui(QMainWindow, DBManager):
         uic.loadUi('UI/BD.ui', self)
         # referinte la elemente din interfata grafica
         self.widgetTabel = self.findChild(QTableWidget, 'Database_table')
+        self.widgetForeignTabel = self.findChild(QTableWidget, 'Foreign_table')
         self.buttons = {
             'intersections':  self.findChild(QPushButton, 'intersection_b'),
             'traffic_lanes': self.findChild(QPushButton, 'lanes_b'),
@@ -37,6 +38,7 @@ class Ui(QMainWindow, DBManager):
         self.buttons['delete_row'].clicked.connect(self.delete_row)
         self.buttons['drop'].clicked.connect(self.drop)
         self.widgetTabel.cellChanged.connect(self.test_valid_valoare)
+        self.widgetTabel.cellClicked.connect(self.casuta_apasata)
         self.column_names = {
             'intersections': ['intersection_id', 'intersection_name', 'intersection_location', 'traffic_control_type', 'maximum_speed_limit'],
             'traffic_lanes': ['lane_id', 'lane_type', 'traffic_direction', 'intersection_id'],
@@ -91,25 +93,29 @@ class Ui(QMainWindow, DBManager):
                     item.setBackground(QBrush(QColor(255, 0, 0)))
             else:
                 if teste.verifica_constrangeri('', self.constrangeri[self.loadedTable][coloana]):
-                    print("Nimic inserat"+str(linie)+" "+str(coloana))
+                    print("Nimic inserat")
                 else:
                     print("Constrangeri not OK")
                     item = QTableWidgetItem()
                     item.setBackground(QBrush(QColor(255, 0, 0)))
                     self.widgetTabel.setItem(linie, coloana, item)
 
+    def casuta_apasata(self, linie, coloana):
+        print("Casuta apasata la "+str(linie)+" "+str(coloana))
+        if self.constrangeri[self.loadedTable][coloana] == 'foreign_key':
+            print("Deschidere selectie pentru foreign key")
+            self.load_columns(self.widgetForeignTabel)
 
-    def load_columns(self):
-        widgetTabel = self.findChild(QTableWidget, 'Database_table')
-        widgetTabel.setColumnCount(len(self.column_names[self.loadedTable]))
+    def load_columns(self, tabel):
+        tabel.setColumnCount(len(self.column_names[self.loadedTable]))
         for index in range(0, len(self.column_names[self.loadedTable])):
-            widgetTabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[self.loadedTable][index])))
+            tabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[self.loadedTable][index])))
 
     def import_tabel(self):
         self.loadingReady = False
         tabel = self.get_table(self.loadedTable)
         # seteaza numele coloanelor
-        self.load_columns()
+        self.load_columns(self.widgetTabel)
         if len(tabel) != 0:
             table_events = self.findChild(QTableWidget, 'Database_table')
             table_events.setColumnCount(len(tabel[0]))

@@ -39,6 +39,7 @@ class Ui(QMainWindow, DBManager):
         self.buttons['drop'].clicked.connect(self.drop)
         self.widgetTabel.cellChanged.connect(self.test_valid_valoare)
         self.widgetTabel.cellClicked.connect(self.casuta_apasata)
+        self.widgetForeignTabel.cellClicked.connect(self.foreign_key_selectat)
         self.column_names = {
             'intersections': ['intersection_id', 'intersection_name', 'intersection_location', 'traffic_control_type', 'maximum_speed_limit'],
             'traffic_lanes': ['lane_id', 'lane_type', 'traffic_direction', 'intersection_id'],
@@ -68,6 +69,9 @@ class Ui(QMainWindow, DBManager):
         # incarcare tabelul initial
         self.import_tabel(self.widgetTabel, self.loadedTable)
         self.show()
+
+    def foreign_key_selectat(self, linie, coloana):
+        print("A selectat foreign key-ul cu id-ul "+str(self.widgetForeignTabel.item(linie, 0).text()))
 
     def test_valid_valoare(self, linie, coloana):
         if self.loadingReady is True:  # daca e false, se incarca din baza de date tabela, nu e nevoie de callback
@@ -104,30 +108,34 @@ class Ui(QMainWindow, DBManager):
         # print("Casuta apasata la "+str(linie)+" "+str(coloana))
         if self.constrangeri[self.loadedTable][coloana] == 'foreign_key':
             # print("Deschidere selectie pentru foreign key")
-            self.load_columns(self.widgetForeignTabel)
             if self.loadedTable == 'traffic_lanes':
                 print("Foreign key pentru Trafiic lanes")
                 self.import_tabel(self.widgetForeignTabel, 'intersections')
+                self.load_columns(self.widgetForeignTabel, 'intersections')
+
             elif self.loadedTable == 'vehicles':
                 print("Foreign key pentru Vehicles")
                 self.import_tabel(self.widgetForeignTabel, 'traffic_lanes')
+                self.load_columns(self.widgetForeignTabel, 'traffic_lanes')
             elif self.loadedTable == 'weather_conditions':
                 print("Foreign key pentru Weather")
                 self.import_tabel(self.widgetForeignTabel, 'intersections')
+                self.load_columns(self.widgetForeignTabel, 'intersections')
             elif self.loadedTable == 'i_events':
                 print("Foreign key pentru events")
                 self.import_tabel(self.widgetForeignTabel, 'intersections')
+                self.load_columns(self.widgetForeignTabel, 'intersections')
 
-    def load_columns(self, tabel):
-        tabel.setColumnCount(len(self.column_names[self.loadedTable]))
-        for index in range(0, len(self.column_names[self.loadedTable])):
-            tabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[self.loadedTable][index])))
+    def load_columns(self, tabel, numeTabel):
+        tabel.setColumnCount(len(self.column_names[numeTabel]))
+        for index in range(0, len(self.column_names[numeTabel])):
+            tabel.setHorizontalHeaderItem(index, QTableWidgetItem(str(self.column_names[numeTabel][index])))
 
     def import_tabel(self, tabel_destinatie, numeTabel):
         self.loadingReady = False
         tabel = self.get_table(numeTabel)
         # seteaza numele coloanelor
-        self.load_columns(tabel_destinatie)
+        self.load_columns(tabel_destinatie, numeTabel)
         if len(tabel) != 0:
             # table_events = self.findChild(QTableWidget, 'Database_table')
             tabel_destinatie.setColumnCount(len(tabel[0]))

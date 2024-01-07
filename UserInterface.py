@@ -321,6 +321,14 @@ class Ui(QMainWindow, DBManager):
                 for coloana in range(1, self.widgetTabel.columnCount()):
                     if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).foreground() == QBrush(QColor(0, 255, 0)):
                         print("Modific linia "+str(linie)+" pe coloana "+str(coloana))
+                        string_set = ''
+                        for coloana in range(0, self.widgetTabel.columnCount()):
+                            if self.widgetTabel.item(linie, coloana) is not None and self.widgetTabel.item(linie, coloana).foreground() == QBrush(QColor(0, 255, 0)):
+                                string_set += self.column_names[self.loadedTable][coloana]+' = ' + "'" + self.widgetTabel.item(linie, coloana).text() + "'" + ', '
+                        string_set = string_set[:-2]
+                        comanda = "update {} set {} where {} =  {}".format(self.loadedTable, string_set, self.column_names[self.loadedTable][0], self.widgetTabel.item(linie, 0).text())
+                        print(comanda)
+                        self.cur.execute(comanda)
         self.import_tabel(self.widgetTabel, self.loadedTable)
         return True
             #for i in range(len(new_rows)):

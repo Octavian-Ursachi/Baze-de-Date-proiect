@@ -1,3 +1,4 @@
+import cx_Oracle
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
@@ -64,8 +65,9 @@ class Ui(QMainWindow, DBManager):
         self.loadedTable = 'intersections'
         self.loadingReady = True
         # conexiunea la baza de date
-        # self.connect(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
-        self.localConnect(user='PROIECT_BD', password='123', hostport="localhost:1521")
+        #cx_Oracle.init_oracle_client(lib_dir="/home/viorel/Downloads/instantclient-basic-linux.x64-21.12.0.0.0dbru/instantclient_21_12")
+        self.connect(user='bd042', password='bd042', host='bd-dc.cs.tuiasi.ro', port='1539')
+        # self.localConnect(user='PROIECT_BD', password='123', hostport="localhost:1521")
         # incarcare tabelul initial
         self.import_tabel(self.widgetTabel, self.loadedTable)
         self.show()
